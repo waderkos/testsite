@@ -7,13 +7,15 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') and ($_POST['ids']==session_id()))
 	include ('block/start.php');
 	//$regist = new db('stest');
 	$username=del_script($_POST['login']);
+	$usermail=del_script($_POST['email']);
 	$userpas1=del_script($_POST['pass1']);
 	$userpas2=del_script($_POST['pass2']);
 	$captcha=del_script($_POST['captcha']);
 
-	$sql_tst_login = "SELECT login FROM  user WHERE login=:login";
+	$sql_tst_login = "SELECT login, email FROM  user WHERE login=:login || email=:email";
 	$query_tst_login=$pdo->prepare($sql_tst_login);
 	$query_tst_login->bindParam(':login', $username, PDO::PARAM_STR, 20);
+	$query_tst_login->bindParam(':email', $usermail, PDO::PARAM_STR, 20);
 	
 	$query_tst_login->execute();
 	$res = $query_tst_login -> fetch();
@@ -35,9 +37,17 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') and ($_POST['ids']==session_id()))
 			//$regist->db_close();
 			exit;	
 		}
-	elseif (isset($res['login']))
+	elseif (isset($res['login']) and ($res['login']==$username))
 		{
 			$_SESSION['error']='Користувача з таким логіном уже зареєстровано';
+			$_SESSION['page']=2;
+			header("Location: index.php");
+			//$regist->db_close();
+			exit;	
+		}
+	elseif (isset($res['email']) and ($res['email']==$usermail))
+		{
+			$_SESSION['error']='Користувача з таким Email уже зареєстровано';
 			$_SESSION['page']=2;
 			header("Location: index.php");
 			//$regist->db_close();
@@ -55,11 +65,12 @@ if (($_SERVER['REQUEST_METHOD'] == 'POST') and ($_POST['ids']==session_id()))
 	else
 		{
 			$pass=md5($userpas1);
-		    $sql="INSERT INTO `user` (`login`, `pass`, `role`) VALUES ('$username', '$pass', 'User')";
+		    //$sql="INSERT INTO `user` (`login`, `pass`, `role`) VALUES ('$username', '$pass', 'User')";
 			
-					$sql_reg="INSERT INTO `user` (`login`, `pass`, `role`) VALUES (:login, :pass, 'User')";				
+					$sql_reg="INSERT INTO `user` (`login`, `email`, `pass`, `role`) VALUES (:login, :email, :pass, 'User')";				
 					$query_reg=$pdo->prepare($sql_reg);
 					$query_reg->bindParam(':login', $username, PDO::PARAM_STR);
+					$query_reg->bindParam(':email', $useremail, PDO::PARAM_STR);
 					$query_reg->bindParam(':pass', $pass, PDO::PARAM_STR);
 					$query_reg->execute();
 						

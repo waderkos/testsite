@@ -16,6 +16,13 @@
     </tr>
     <tr>
       <td height="30">&nbsp;</td>
+      <td valign="middle"><?php echo translt($smsg[17]); ?></td>
+      <td valign="middle"><label for="email"></label>
+      <input type="text" name="email" id="email"></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td height="30">&nbsp;</td>
       <td valign="middle"><?php echo translt($smsg[10]); ?></td>
       <td valign="middle"><label for="pass1"></label>
       <input type="password" name="pass1" id="pass1"></td>
@@ -48,6 +55,12 @@
       <td width="50" height="50">&nbsp;</td>
       <td align="center">&nbsp;</td>
       <td align="left"><input type="submit" name="reg" id="reg" value="<?php echo translt($smsg[6]); ?>"></td>
+      <td>&nbsp;</td>
+    </tr>
+    <tr>
+      <td height="100">&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
       <td>&nbsp;</td>
     </tr>
   </table>
