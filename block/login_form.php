@@ -1,4 +1,5 @@
 ﻿<?php defined('_TSTINC') or header("Location: index.php"); ?>
+<div style="height:130px;">
           <ul id="regForm">
             <li>
             <form id="form1" name="form1" method="post" action="test_login.php">
@@ -15,6 +16,7 @@
             <input type="hidden" name="page" value="2" />
             </form>
             </li><li style="padding-left:30px;">
-            <a href="page.php?page=1"><img src="images/homepage.png" title="Домашня сторінка"></a>
+            
             </li>
            </ul>
+</div>

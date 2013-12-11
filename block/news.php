@@ -18,9 +18,18 @@ function limit_words($string, $word_limit) {
 }
 
 $num = 10;
-if (!isset($_GET['page'])) $_GET['page']=1;
-$page = $_GET['page'];
-
+if (isset($_GET['page']))
+{
+	$page = $_GET['page'];
+	$_SESSION['npage'] = $_GET['page'];
+}
+elseif(isset($_SESSION['npage']))
+$page = $_SESSION['npage'];
+else
+{
+	$_SESSION['npage']=1;
+	$page=$_SESSION['npage'];
+}
 
 $query=$pdo->query("SELECT id FROM news;");
 $posts=$query->rowCount();
@@ -51,7 +60,7 @@ $query_news->execute();
 // В цикле переносим результаты запроса в массив $postrow
 while ($postrow = $query_news -> fetch())
 {
-echo '<table width="850" border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:12px;">
+echo '<table border="0" align="center" cellpadding="0" cellspacing="0" style="font-size:12px;">
 	  <tr>
 		<td bgcolor="#eef"><h4> <a href="page.php?post='.$postrow['id'].'"> '.translt($postrow['title']).' </a></h4></td>
 	  </tr>
@@ -76,7 +85,7 @@ echo'<table width="200" border="0" cellspacing="0" cellpadding="0">
   </tr>
 </table>';
 
-echo'<table width="880" border="0" cellspacing="0" cellpadding="0" class="ltext">
+echo'<table width="650" border="0" cellspacing="0" cellpadding="0" class="ltext">
   <tr>
     <td>
   		'.$postrow['data'].'
